@@ -3,6 +3,7 @@ import torch.nn as nn
 import librosa
 import numpy as np
 import io
+import os
 
 # Define the model architecture
 class AudioClassifier(nn.Module):
@@ -25,7 +26,14 @@ class AudioClassifier(nn.Module):
         x, _ = self.lstm(x)
         x = self.fc(x[:, -1, :])
         return x
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "best_model.pth")
 
+def load_model():
+    model = torch.load(MODEL_PATH, map_location=torch.device("cpu"))
+    model.eval()
+    return model
+    
 # Load trained model
 def load_model(model_path="models/best_model.pth"):
     device = torch.device("cpu")
