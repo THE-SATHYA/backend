@@ -3,3 +3,4 @@ uvicorn
 torch
 librosa
 numpy
+python-multipart
