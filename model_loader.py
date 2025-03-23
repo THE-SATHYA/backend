@@ -35,7 +35,7 @@ def load_model():
     return model
     
 # Load trained model
-def load_model(model_path="backend/models/best_model.pth"):
+def load_model(model_path="best_model.pth"):
     device = torch.device("cpu")
     model = AudioClassifier().to(device)
     model.load_state_dict(torch.load(model_path, map_location=device))
