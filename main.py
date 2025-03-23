@@ -11,7 +11,7 @@ import os
 app = FastAPI()
 
 # Load trained model
-model = load_model("models/best_model.pth")
+model = load_model("best_model.pth")
 
 @app.get("/")
 async def root():
