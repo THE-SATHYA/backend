@@ -7,6 +7,7 @@ from model_loader import load_model, preprocess_audio
 from fastapi.responses import FileResponse
 import os
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -67,5 +68,5 @@ async def favicon():
     return {"message": "No favicon found"}
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=10000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
