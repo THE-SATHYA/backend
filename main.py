@@ -38,6 +38,13 @@ async def predict(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
+from fastapi import FastAPI, UploadFile, File
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    return {"filename": file.filename, "status": "uploaded successfully"}
+
+
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     """Serve a favicon if available."""
