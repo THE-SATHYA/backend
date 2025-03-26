@@ -6,12 +6,26 @@ import io
 from model_loader import load_model, preprocess_audio
 from fastapi.responses import FileResponse
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 # Initialize FastAPI app
 app = FastAPI()
 
 # Load trained model
 model = load_model("best_model.pth")
+
+origins = [
+    "https://frontend-three-ecru-71.vercel.app/",  
+    "http://127.0.0.1.10000" 
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (POST, GET, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 @app.get("/")
 async def root():
