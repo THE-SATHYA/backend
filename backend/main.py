@@ -6,12 +6,27 @@ import io
 from model_loader import load_model, preprocess_audio
 from fastapi.responses import FileResponse
 import os
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 # Initialize FastAPI app
 app = FastAPI()
 
 # Load trained model
-model = load_model("models/best_model.pth")
+model = load_model("best_model.pth")
+
+origins = [
+    "https://frontend-three-ecru-71.vercel.app/",  
+    "http://127.0.0.1.10000" 
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["POST, GET"],  # Allow all HTTP methods (POST, GET, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 @app.get("/")
 async def root():
@@ -38,6 +53,13 @@ async def predict(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
+from fastapi import FastAPI, UploadFile, File
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    return {"filename": file.filename, "status": "uploaded successfully"}
+
+
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     """Serve a favicon if available."""
@@ -46,5 +68,5 @@ async def favicon():
     return {"message": "No favicon found"}
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
