@@ -16,7 +16,7 @@ app = FastAPI()
 model = load_model("best_model.pth")
 
 origins = [
-    "https://frontend-three-ecru-71.vercel.app/",  
+    "https://reliable-taffy-685c03.netlify.app/",  
     "http://127.0.0.1.10000" 
 ]
 
